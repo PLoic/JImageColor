@@ -1,7 +1,10 @@
+package imageColor;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Created by loic on 09/10/15.
@@ -27,32 +30,21 @@ public class Generator {
             bufferedWriter.write(widthPixel.toString() + " " + heightPixel.toString());
             bufferedWriter.newLine();
 
-            Integer returnLine = 0;
-            boolean jumpLine = false;
-
-            if( widthPixel > 70) jumpLine = true;
-
-            Random randomGenerator = new Random();
-
             for (int i = 0; i < heightPixel; ++i)
             {
-
+                int count = 0;
                 for (int j = 0; j < widthPixel; ++j)
                 {
-                    Integer randomPixel = randomGenerator.nextInt(100);
-                    bufferedWriter.write(randomPixel.toString());
-                    if (++returnLine % 70 == 0)
+                    int randomNum = ThreadLocalRandom.current().nextInt(2);
+                    bufferedWriter.write(new Integer(randomNum).toString());
+                    count++;
+                    if (count == 70)
                     {
                         bufferedWriter.newLine();
                     }
                 }
-                if (jumpLine)
-                {
-                    bufferedWriter.newLine();
-                }
             }
 
-            bufferedWriter.newLine();
             bufferedWriter.close();
             fileWriter.close();
 
