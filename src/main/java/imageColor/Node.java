@@ -6,6 +6,7 @@ package imageColor;
 public class Node {
 
     private Node referant;
+    private Node next;
 
     private int x;
     private int y;
@@ -13,6 +14,11 @@ public class Node {
     public Node(int x, int y) {
         this.x = x;
         this.y = y;
+        next = null;
+    }
+
+    public void setNext (Node next) {
+        this.next = next;
     }
 
     public int getX() {
@@ -31,7 +37,7 @@ public class Node {
         this.y = y;
     }
 
-    public Node getReferant() {
+    public Node findSet() {
         return referant;
     }
 
