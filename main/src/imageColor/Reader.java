@@ -10,21 +10,21 @@ import java.util.StringTokenizer;
  */
 public class Reader {
 
-    private String Filename;
+    private String filename;
 
 
     public Reader(String filename) {
-        Filename = filename;
+        this.filename = filename;
     }
 
-    public Integer[][] Read(){
+    public Integer[][] read() {
         String line;
 
         Integer[][] matrix = null;
 
         try {
 
-            FileReader myFileReader = new FileReader(this.Filename);
+            FileReader myFileReader = new FileReader(this.filename);
             BufferedReader myBufferedReader = new BufferedReader(myFileReader);
 
             line = myBufferedReader.readLine();
@@ -50,9 +50,8 @@ public class Reader {
                 for(char c : line.toCharArray()){
                     if (c == '#') break;
                     else if (c == '1' || c == '0'){
-                        matrix[heightTMP][widthTMP] = (int) c;
-                        if (widthTMP++ == (widthMatrix - 1))
-                        {
+                        matrix[heightTMP][widthTMP] = c - '0';
+                        if (widthTMP++ == (widthMatrix - 1)) {
                             widthTMP = 0;
                             ++heightTMP;
                         }
@@ -70,4 +69,16 @@ public class Reader {
 
         return matrix;
     }
+
+    public static void main (String[] args) {
+        Reader reader = new Reader("/home/micka/Bureau/test.pbm");
+        Integer[][] matrix = reader.read();
+        for (final Integer[] i : matrix) {
+            for (final Integer j : i) {
+                System.out.print(j);
+            }
+            System.out.println("");
+        }
+    } 
+
 }

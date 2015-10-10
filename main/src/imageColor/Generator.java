@@ -30,30 +30,36 @@ public class Generator {
             bufferedWriter.write(widthPixel.toString() + " " + heightPixel.toString());
             bufferedWriter.newLine();
 
-            for (int i = 0; i < heightPixel; ++i)
-            {
-                int count = 0;
-                for (int j = 0; j < widthPixel; ++j)
-                {
+            int returnLine = 0;
+            boolean jumpLine = false;
+            if (widthPixel < 70) {
+                jumpLine = true;
+            }
+
+            for (int i = 0; i < heightPixel; ++i) {
+                for (int j = 0; j < widthPixel; ++j) {
                     int randomNum = ThreadLocalRandom.current().nextInt(2);
                     bufferedWriter.write(new Integer(randomNum).toString());
-                    count++;
-                    if (count == 70)
-                    {
+                    if (((++returnLine % 70) == 0) && !jumpLine) {
                         bufferedWriter.newLine();
                     }
+                }
+                if (jumpLine) {
+                    bufferedWriter.newLine();
                 }
             }
 
             bufferedWriter.close();
             fileWriter.close();
 
-
-
-
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+    }
+
+    public static void main (String[] args) {
+        Generator generate = new Generator("/home/micka/Bureau/test.pbm"); 
+        generate.generate(100, 100);
     }
 }

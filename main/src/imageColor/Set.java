@@ -10,7 +10,7 @@ public class Set<E> extends ArrayList<E> {
     private Node head;
     private Node tail;
 
-    public Set makeSet(Node n){
+    public Set makeSet (Node n){
         ArrayList<Node> a = new ArrayList<>();
         head = n;
         tail = n;
@@ -18,9 +18,19 @@ public class Set<E> extends ArrayList<E> {
         return (Set) a;
     }
 
-    public Node findReferant(Node x){
+    public Node findReferant (Node x){
         return x.getReferant();
     }
+    
+    public void setTail (Node tail) {
+        this.tail = tail;
+    }
+    
+    public void setHead (Node head) {
+        this.head = head; 
+    }
 
+    public void union () {
 
+    }
 }
