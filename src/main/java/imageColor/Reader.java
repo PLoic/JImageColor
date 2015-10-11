@@ -71,7 +71,7 @@ public class Reader {
     }
 
     public static void main (String[] args) {
-        Reader reader = new Reader("/home/micka/Bureau/test.pbm");
+        Reader reader = new Reader("test.pbm");
         Integer[][] matrix = reader.read();
         for (final Integer[] i : matrix) {
             for (final Integer j : i) {

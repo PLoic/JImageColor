@@ -16,7 +16,11 @@ public class Set<E> extends ArrayList<E> {
         super.add(n);
         return this;
     }
-   
+
+    public Set() {
+        super();
+    }
+
     public void setHead (E head) {
         this.head = head; 
     }
@@ -27,6 +31,14 @@ public class Set<E> extends ArrayList<E> {
 
     public E getHead() {
         return head;
+    }
+
+    @Override
+    public String toString() {
+        return "Set{" +
+                "head=" + head +
+                ", tail=" + tail +
+                '}';
     }
 
     public E getTail() {

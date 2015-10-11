@@ -15,6 +15,7 @@ public class Node {
         this.x = x;
         this.y = y;
         next = null;
+        referant = this;
     }
 
     public void setNext (Node next) {

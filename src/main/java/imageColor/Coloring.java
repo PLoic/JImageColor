@@ -5,19 +5,19 @@ import java.util.ArrayList;
 class Coloring {
 
     public void union (Set<Node> bigSet, Set<Node> littleSet) {
-        bigSet.getTail().setNext(littleSet.getHead()); 
+        (bigSet.getTail()).setNext(littleSet.getHead());
         bigSet.setTail(littleSet.getTail());
         for(Node node : littleSet) {
             node.setReferant(bigSet.getHead());
         }
     }
 
-    private void createMatrixSet (Set<Node>[][]matrixSet, Integer[][] matrix, Set<Node> set) {
+    private void createMatrixSet (Set<Node>[][] matrixSet, Integer[][] matrix) {
         for(int i = 0; i < matrix.length; ++i) {
             for (int j = 0; j < matrix[0].length; ++j) {
                 if (matrix[i][j] == 0) {
-                    Node node = new Node (i, j);
-                    matrixSet[i][j] = set.makeSet(node);
+                     Set<Node> set = new Set<>();
+                    matrixSet[i][j] = set.makeSet(new Node (i, j));
                 }
             }
         }
@@ -32,15 +32,51 @@ class Coloring {
     }
 
     public void coloring () {
-        Reader reader = new Reader("/home/micka/Bureau/test.pbm");
+        Reader reader = new Reader("carte_france.pbm");
         Integer[][] matrix = reader.read();
 
-        // Marche pas a cause de la genericité Set<Node>[][] matrixSet = new ArrayList<Node>[matrix.length][matrix[0].length]; 
-        // Chercher comment remplacer
-        Set<Node> set = new Set<Node>(); // A changer
+        Set<Node>[][] sets = new Set[matrix.length][matrix[0].length];
 
-        createMatrixSet(matrixSet, matrix, set); // A factoriser avec makeAllUnion plus tard
-        makeAllUnion(matrixSet);
+        createMatrixSet(sets, matrix);
+
+        for(int i = 0; i < sets.length; ++i) {
+            for (int j = 0; j < sets[0].length; ++j) {
+                Set<Node> a;
+                if (i > 0 && j > 0 && j+1 < sets[0].length && i+1 < sets[0].length ){
+                    if (sets[i-1][j] != null && sets[i][j] != null && (sets[i][j]).getHead() != (a = sets[i-1][j]).getHead() )
+                        union(sets[i][j],a);
+                    if(sets[i][j-1] != null &&  sets[i][j] != null && (sets[i][j]).getHead() != (a = sets[i][j-1]).getHead())
+                        union(sets[i][j],a);
+                    if(sets[i+1][j] != null &&  sets[i][j] != null && (sets[i][j]).getHead() != (a = sets[i+1][j]).getHead())
+                        union(sets[i][j],a);
+                    if(sets[i][j+1] != null &&  sets[i][j] != null && (sets[i][j]).getHead() != (a = sets[i][j+1]).getHead())
+                        union(sets[i][j],a);
+
+                }else if(i == 0 && j > 0 && j+1 < sets[0].length ){
+                    if (sets[i][j-1] != null &&  sets[i][j] != null && (sets[i][j]).getHead() != (a = sets[i][j-1]).getHead())
+                        union(sets[i][j],a);
+                    if(sets[i+1][j] != null && sets[i][j] != null && (sets[i][j]).getHead() != (a = sets[i+1][j]).getHead())
+                        union(sets[i][j],a);
+                    if(sets[i][j+1] != null &&  sets[i][j] != null && (sets[i][j]).getHead() != (a = sets[i][j+1]).getHead())
+                        union(sets[i][j],a);
+                }
+                else if (j == 0 && i > 0 && i+1 < sets[0].length){
+                    if (sets[i-1][j] != null &&  sets[i][j] != null && (sets[i][j]).getHead() != (a = sets[i-1][j]).getHead())
+                        union(sets[i][j],a);
+                    if(sets[i+1][j] != null && sets[i][j] != null && (sets[i][j]).getHead() != (a = sets[i+1][j]).getHead())
+                        union(sets[i][j],a);
+                    if(sets[i][j+1] != null  && sets[i][j] != null && (sets[i][j]).getHead() != (a = sets[i][j+1]).getHead())
+                        union(sets[i][j],a);
+                }
+                else if( i == 0 && j == 0 && i+1 < sets[0].length && j+1 < sets[0].length){
+                    if(sets[i+1][j] != null && sets[i][j] != null && (sets[i][j]).getHead() != (a = sets[i+1][j]).getHead())
+                        union(sets[i][j],a);
+                    if(sets[i][j+1] != null && sets[i][j] != null && (sets[i][j]).getHead() != (a = sets[i][j+1]).getHead())
+                        union(sets[i][j],a);
+                }
+            }
+        }
+        System.out.println(sets);
     }
 
 

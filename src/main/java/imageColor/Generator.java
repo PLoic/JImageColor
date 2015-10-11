@@ -59,7 +59,7 @@ public class Generator {
     }
 
     public static void main (String[] args) {
-        Generator generate = new Generator("/home/micka/Bureau/test.pbm"); 
+        Generator generate = new Generator("test.pbm");
         generate.generate(100, 100);
     }
 }
