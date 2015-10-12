@@ -10,10 +10,12 @@ public class Node {
 
     private int x;
     private int y;
+    private Integer[] color;
 
-    public Node(int x, int y) {
+    public Node(int x, int y, Integer[] coloring) {
         this.x = x;
         this.y = y;
+        this.color = coloring;
         next = null;
         referant = this;
     }
@@ -21,6 +23,7 @@ public class Node {
     public void setNext (Node next) {
         this.next = next;
     }
+
 
     public int getX() {
         return x;
@@ -44,5 +47,21 @@ public class Node {
 
     public void setReferant(Node referant) {
         this.referant = referant;
+    }
+
+    public Integer[] getColor() {
+        return color;
+    }
+
+    public void setColor(Integer[] color) {
+        this.color = color;
+    }
+
+    public Node getNext() {
+        return next;
+    }
+
+    public Node getReferant() {
+        return referant;
     }
 }

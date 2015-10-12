@@ -17,10 +17,10 @@ public class Reader {
         this.filename = filename;
     }
 
-    public Integer[][] read() {
+    public Integer[][][] read() {
         String line;
 
-        Integer[][] matrix = null;
+        Integer[][][] matrix = null;
 
         try {
 
@@ -40,7 +40,7 @@ public class Reader {
             widthMatrix = new Integer(stringTokenizer.nextToken());
             heightMatrix = new Integer(stringTokenizer.nextToken());
 
-            matrix = new Integer[heightMatrix][widthMatrix];
+            matrix = new Integer[heightMatrix][widthMatrix][3];
 
 
             int widthTMP = 0;
@@ -50,7 +50,18 @@ public class Reader {
                 for(char c : line.toCharArray()){
                     if (c == '#') break;
                     else if (c == '1' || c == '0'){
-                        matrix[heightTMP][widthTMP] = c - '0';
+                        int tmp = c - '0';
+                        if(tmp == 1){
+                            matrix[heightTMP][widthTMP][0] = 0;
+                            matrix[heightTMP][widthTMP][1] = 0;
+                            matrix[heightTMP][widthTMP][2] = 0;
+                        }
+                        else{
+                            matrix[heightTMP][widthTMP][0] = 255;
+                            matrix[heightTMP][widthTMP][1] = 255;
+                            matrix[heightTMP][widthTMP][2] = 255;
+                        }
+
                         if (widthTMP++ == (widthMatrix - 1)) {
                             widthTMP = 0;
                             ++heightTMP;
@@ -71,11 +82,12 @@ public class Reader {
     }
 
     public static void main (String[] args) {
-        Reader reader = new Reader("test.pbm");
-        Integer[][] matrix = reader.read();
-        for (final Integer[] i : matrix) {
-            for (final Integer j : i) {
-                System.out.print(j);
+        Reader reader = new Reader("carte_france.pbm");
+        Integer[][][] matrix = reader.read();
+        for (final Integer[][] i : matrix) {
+            for (final Integer[] j : i) {
+                for(Integer k : j)
+                    System.out.print(k);
             }
             System.out.println("");
         }

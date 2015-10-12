@@ -13,7 +13,6 @@ public class Set<E> extends ArrayList<E> {
     public Set<E> makeSet (E n){
         head = n;
         tail = n;
-        super.add(n);
         return this;
     }
 
