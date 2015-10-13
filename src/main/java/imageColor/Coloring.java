@@ -6,9 +6,9 @@ import java.awt.Color;
 
 class Coloring {
 
-    public void union (Set<Node> bigSet, Set<Node> littleSet, java.util.Set<Node> headSet) {
+    public void union (Set<Node> bigSet, Set<Node> littleSet) {
         Integer[] color;
-        color = bigSet.getHead().findSet().getColor();
+        color = bigSet.getHead().getColor();
 
         for(Node n = littleSet.getHead(); n != null ; n = n.getNext()) {
             n.setReferant(bigSet.getHead());
@@ -17,7 +17,6 @@ class Coloring {
         bigSet.getTail().setNext(littleSet.getHead());
         littleSet.setHead(bigSet.getHead());
         bigSet.setTail(littleSet.getTail());
-        headSet.add(bigSet.getHead().getReferant());
     }
 
     private void createMatrixSet (Set<Node>[][] matrixSet, Integer[][][] matrix) {
@@ -34,7 +33,7 @@ class Coloring {
                     Set<Node> set = new Set<>();
                     Integer[] tmp1 = {r,g,b};
                     matrixSet[i][j] = set.makeSet(new Node (i, j, tmp1));
-                }else {
+                } else {
                     Set<Node> set = new Set<>();
                     Integer[] tmp1 = {0,0,0};
                     matrixSet[i][j] = set.makeSet(new Node (i, j, tmp1));
@@ -43,23 +42,13 @@ class Coloring {
         }
     }
 
-    private void makeAllUnion(Set<Node>[][] matrixSet) {
-        for (int i = 0; i < matrixSet.length; ++i) {
-            for (int j = 0; j < matrixSet[0].length; ++j) {
-                // Faire l'union entre tous la fatigue djkqsdjqsdjq 
-            }
-        }
-    }
-
     public void coloring () {
-        Reader reader = new Reader("feep.pbm");
+        Reader reader = new Reader("carte_france.pbm");
         Integer[][][] matrix = reader.read();
 
         Set<Node>[][] sets = new Set[matrix.length][matrix[0].length];
 
         createMatrixSet(sets, matrix);
-
-        java.util.Set<Node> headSet = new HashSet<>();
 
         for(int i = 0; i < sets.length; ++i) {
             for (int j = 0; j < sets[0].length; ++j) {
@@ -70,31 +59,33 @@ class Coloring {
                 if(sets[i][j].getHead().getColor()[0] == 0 && sets[i][j].getHead().getColor()[1] == 0 && sets[i][j].getHead().getColor()[2] == 0) continue;
 
                 if(j == sets[0].length - 1){
-                    if((sets[i][j]).getHead() != (a = sets[i+1][j]).getHead() && sets[i+1][j].getHead().getColor()[0] != 0 && sets[i+1][j].getHead().getColor()[1] != 0 && sets[i+1][j].getHead().getColor()[2] != 0 )
-                        union(sets[i][j],a,headSet);
+                    if((sets[i][j]).getHead() != sets[i+1][j].getHead() && sets[i+1][j].getHead().getColor()[0] != 0 && sets[i+1][j].getHead().getColor()[1] != 0 && sets[i+1][j].getHead().getColor()[2] != 0 )
+                        union(sets[i][j], sets[i + 1][j]);
                 }
                 if(i == sets.length - 1){
-                    if ((sets[i][j]).getHead() != (a = sets[i][j+1]).getHead() && sets[i][j+1].getHead().getColor()[0] != 0 && sets[i][j+1].getHead().getColor()[1] != 0 && sets[i][j+1].getHead().getColor()[2] != 0)
-                        union(sets[i][j],a,headSet);
+                    if ((sets[i][j]).getHead() != sets[i][j+1].getHead() && sets[i][j+1].getHead().getColor()[0] != 0 && sets[i][j+1].getHead().getColor()[1] != 0 && sets[i][j+1].getHead().getColor()[2] != 0)
+                        union(sets[i][j],sets[i][j+1]);
                 }
 
                 if (j+1 < sets[0].length && i+1 < sets.length){
-                    if ((sets[i][j]).getHead() != (a = sets[i][j+1]).getHead() && sets[i][j+1].getHead().getColor()[0] != 0 && sets[i][j+1].getHead().getColor()[1] != 0 && sets[i][j+1].getHead().getColor()[2] != 0)
-                        union(sets[i][j],a,headSet);
-                    if((sets[i][j]).getHead() != (a = sets[i+1][j]).getHead() && sets[i+1][j].getHead().getColor()[0] != 0 && sets[i+1][j].getHead().getColor()[1] != 0 && sets[i+1][j].getHead().getColor()[2] != 0 )
-                        union(sets[i][j],a,headSet);
+                    if ((sets[i][j]).getHead() != sets[i][j+1].getHead() && sets[i][j+1].getHead().getColor()[0] != 0 && sets[i][j+1].getHead().getColor()[1] != 0 && sets[i][j+1].getHead().getColor()[2] != 0)
+                        union(sets[i][j],sets[i][j+1]);
+                    if((sets[i][j]).getHead() != sets[i+1][j].getHead() && sets[i+1][j].getHead().getColor()[0] != 0 && sets[i+1][j].getHead().getColor()[1] != 0 && sets[i+1][j].getHead().getColor()[2] != 0 )
+                        union(sets[i][j],sets[i+1][j]);
                 }
-
 
             }
         }
-
-        System.out.println(headSet);
-        for (Node  n : headSet){
-            for (Node tmp = n; tmp != null; tmp = tmp.getNext()) {
-                matrix[tmp.getX()][tmp.getY()][0] = tmp.getColor()[0];
-                matrix[tmp.getX()][tmp.getY()][1] = tmp.getColor()[1];
-                matrix[tmp.getX()][tmp.getY()][2] = tmp.getColor()[2];
+        
+        Node tmp = sets[0][0].getHead();
+        for (int i = 0; i < sets.length; ++i){
+            for (int j = 0; j < sets[0].length; ++j) {
+                if (sets[i][j].getHead() != tmp.getReferant()) {
+                   tmp = sets[i][j].getHead(); 
+                }
+                matrix[i][j][0] = tmp.getColor()[0];
+                matrix[i][j][1] = tmp.getColor()[1];
+                matrix[i][j][2] = tmp.getColor()[2];
             }
         }
 
