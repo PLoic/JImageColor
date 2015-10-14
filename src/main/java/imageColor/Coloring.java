@@ -8,7 +8,7 @@ import java.util.Set;
 class Coloring {
 
     public void coloring () {
-        Reader reader = new Reader("biang.pbm");
+        Reader reader = new Reader("celtique.pbm");
         int[][][] matrix = reader.read();
 
         Node[][] a = new Node[matrix.length][matrix[0].length];
@@ -28,9 +28,6 @@ class Coloring {
                     matrix[i][j][2] = b;
                     int[] tmp1 = {r,g,b};
                     a[i][j] = linked.makeSet(new Value(i, j, tmp1));
-                } else {
-                    int[] tmp1 = {0,0,0};
-                    a[i][j] = linked.makeSet(new Value(i, j, tmp1));
                 }
             }
         }
@@ -38,24 +35,28 @@ class Coloring {
         for (int i = 0; i < a.length; i++) {
             for (int j = 0; j < a[i].length ; j++) {
 
-                if (((Value)a[i][j].theObject).color[0] == 0 && ((Value)a[i][j].theObject).color[1] == 0 && ((Value)a[i][j].theObject).color[2] == 0) continue;
+                if (a[i][j] == null) continue;
 
-                if (j+1 < a[0].length && i+1 < a.length){
-                    if(!(a[i][j].representative.head.equals(a[i+1][j].representative.head)) && ((Value)a[i+1][j].theObject).color[0] != 0 && ((Value)a[i+1][j].theObject).color[1] != 0 && ((Value)a[i+1][j].theObject).color[2] != 0){
+                 if(j == a[0].length-1 && i+1 < a.length){
+                    if(a[i+1][j] != null && !(a[i][j].representative.equals(a[i+1][j].representative))){
                         linked.union(a[i][j], a[i + 1][j]);
-                    }
-                    if(!(a[i][j].representative.head.equals(a[i][j+1].representative.head)) && ((Value)a[i][j+1].theObject).color[0] != 0 && ((Value)a[i][j+1].theObject).color[1] != 0 && ((Value)a[i][j+1].theObject).color[2] != 0){
-                        linked.union(a[i][j], a[i][j + 1]);
+                        ((Value)(a[i+1][j].theObject)).color = ((Value)a[i][j].theObject).color;
                     }
                 }
-                else if(j == a[0].length-1 && i+1 < a.length){
-                    if(!(a[i][j].representative.head.equals(a[i+1][j].representative.head)) && ((Value)a[i+1][j].theObject).color[0] != 0 && ((Value)a[i+1][j].theObject).color[1] != 0 && ((Value)a[i+1][j].theObject).color[2] != 0){
-                        linked.union(a[i][j], a[i + 1][j]);
+                else if( i == a.length-1 && j+1 < a[0].length){
+                    if(a[i][j+1] != null && !(a[i][j].representative.equals(a[i][j+1].representative))){
+                        linked.union(a[i][j], a[i][j + 1]);
+                        ((Value)(a[i][j+1].theObject)).color = ((Value)a[i][j].theObject).color;
                     }
                 }
-                else if(i == a.length-1 && j+1 < a[0].length){
-                    if(!(a[i][j].representative.head.equals(a[i][j+1].representative.head)) && ((Value)a[i][j+1].theObject).color[0] != 0 && ((Value)a[i][j+1].theObject).color[1] != 0 && ((Value)a[i][j+1].theObject).color[2] != 0){
+                else if (j+1 < a[0].length && i+1 < a.length){
+                    if(a[i+1][j] != null && !(a[i][j].representative.equals(a[i+1][j].representative))){
+                        linked.union(a[i][j], a[i + 1][j]);
+                        ((Value)(a[i+1][j].theObject)).color = ((Value)a[i][j].theObject).color;
+                    }
+                    if(a[i][j+1] != null && !(a[i][j].representative.equals(a[i][j+1].representative))){
                         linked.union(a[i][j], a[i][j + 1]);
+                        ((Value)(a[i][j+1].theObject)).color = ((Value)a[i][j].theObject).color;
                     }
                 }
             }
@@ -63,7 +64,11 @@ class Coloring {
 
         for (int i = 0; i < a.length; i++) {
             for (int j = 0; j < a[i].length; j++) {
-                matrix[i][j] = ((Value)a[i][j].representative.head.theObject).color;
+                if (a[i][j] != null) matrix[i][j] = ((Value)a[i][j].representative.head.theObject).color;
+                else{
+                    int[] ba = {0,0,0};
+                    matrix[i][j] = ba;
+                }
             }
         }
 
