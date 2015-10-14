@@ -5,19 +5,37 @@ package imageColor;
  */
 public class Node {
 
-    public Object theObject;
-    public Node next;
-    public SetLinked.SetL representative;
+    private Object theObject;
+    private Node next;
+    private SetLinked.SetL representative;
 
-    public Node(Object x)
-    {
+    public Node(Object x) {
         theObject = x;
         next = null;
         representative = null;
     }
 
-    public String toString()
-    {
+    public Object getTheObject() {
+        return theObject;
+    }
+
+    public Node getNext() {
+        return next;
+    }
+
+    public void setNext(Node next) {
+        this.next = next;
+    }
+
+    public SetLinked.SetL getRepresentative() {
+        return representative;
+    }
+
+    public void setRepresentative(SetLinked.SetL representative) {
+        this.representative = representative;
+    }
+
+    public String toString() {
         return theObject.toString();
     }
 

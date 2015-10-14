@@ -46,17 +46,16 @@ public class Reader {
             int widthTMP = 0;
             int heightTMP = 0;
 
-            while ((line = myBufferedReader.readLine()) != null ){
-                for(char c : line.toCharArray()){
+            while ((line = myBufferedReader.readLine()) != null) {
+                for(char c : line.toCharArray()) {
                     if (c == '#') break;
-                    else if (c == '1' || c == '0'){
+                    else if (c == '1' || c == '0') {
                         int tmp = c - '0';
-                        if(tmp == 1){
+                        if(tmp == 1) {
                             matrix[heightTMP][widthTMP][0] = 0;
                             matrix[heightTMP][widthTMP][1] = 0;
                             matrix[heightTMP][widthTMP][2] = 0;
-                        }
-                        else{
+                        } else {
                             matrix[heightTMP][widthTMP][0] = 255;
                             matrix[heightTMP][widthTMP][1] = 255;
                             matrix[heightTMP][widthTMP][2] = 255;
@@ -80,17 +79,5 @@ public class Reader {
 
         return matrix;
     }
-
-    public static void main (String[] args) {
-        Reader reader = new Reader("carte_france.pbm");
-        int[][][] matrix = reader.read();
-        for (final int[][] i : matrix) {
-            for (final int[] j : i) {
-                for(Integer k : j)
-                    System.out.print(k);
-            }
-            System.out.println("");
-        }
-    } 
 
 }

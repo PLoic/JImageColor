@@ -7,15 +7,7 @@ import java.util.Set;
 
 class Coloring {
 
-    public void coloring () {
-        Reader reader = new Reader("celtique.pbm");
-        int[][][] matrix = reader.read();
-
-        Node[][] a = new Node[matrix.length][matrix[0].length];
-
-
-        SetLinked linked = new SetLinked();
-
+    private void makeAllSet(Node[][] nodes, int[][][] matrix, SetLinked linked) {
         Random randomGenerator = new Random();
         for(int i = 0; i < matrix.length; ++i) {
             for (int j = 0; j < matrix[0].length; ++j) {
@@ -27,59 +19,78 @@ class Coloring {
                     matrix[i][j][1] = g;
                     matrix[i][j][2] = b;
                     int[] tmp1 = {r,g,b};
-                    a[i][j] = linked.makeSet(new Value(i, j, tmp1));
+                    nodes[i][j] = linked.makeSet(new Pixel(i, j, tmp1));
+                }
+            }
+        }
+    }
+
+    private void makeAllUnion(Node[][] nodes, SetLinked linked) {
+
+        for (int i = 0; i < nodes.length; i++) {
+            for (int j = 0; j < nodes[i].length ; j++) {
+
+                if (nodes[i][j] == null) continue;
+
+                 if (j == nodes[0].length-1 && i+1 < nodes.length) {
+                    if (nodes[i+1][j] != null && !(nodes[i][j].getRepresentative().equals(nodes[i+1][j].getRepresentative()))) {
+                        linked.union(nodes[i][j], nodes[i + 1][j]);
+                        ((Pixel)(nodes[i+1][j].getTheObject())).setColor(((Pixel)nodes[i][j].getTheObject()).getColor());
+                    }
+                } else if(i == nodes.length - 1 && j + 1 < nodes[0].length) {
+                    if (nodes[i][j+1] != null && !(nodes[i][j].getRepresentative().equals(nodes[i][j+1].getRepresentative()))) {
+                        linked.union(nodes[i][j], nodes[i][j + 1]);
+                        ((Pixel)(nodes[i][j+1].getTheObject())).setColor(((Pixel)nodes[i][j].getTheObject()).getColor());
+                    }
+                } else if (j + 1 < nodes[0].length && i + 1 < nodes.length) {
+                    if (nodes[i+1][j] != null && !(nodes[i][j].getRepresentative().equals(nodes[i+1][j].getRepresentative()))) {
+                        linked.union(nodes[i][j], nodes[i + 1][j]);
+                        ((Pixel)(nodes[i+1][j].getTheObject())).setColor(((Pixel)nodes[i][j].getTheObject()).getColor());
+                    }
+                    if (nodes[i][j+1] != null && !(nodes[i][j].getRepresentative().equals(nodes[i][j+1].getRepresentative()))) {
+                        linked.union(nodes[i][j], nodes[i][j + 1]);
+                        ((Pixel)(nodes[i][j+1].getTheObject())).setColor(((Pixel)nodes[i][j].getTheObject()).getColor());
+                    }
                 }
             }
         }
 
-        for (int i = 0; i < a.length; i++) {
-            for (int j = 0; j < a[i].length ; j++) {
+    }
 
-                if (a[i][j] == null) continue;
+    private void switchNodeToMatrix(Node[][] nodes, int[][][] matrix) {
 
-                 if(j == a[0].length-1 && i+1 < a.length){
-                    if(a[i+1][j] != null && !(a[i][j].representative.equals(a[i+1][j].representative))){
-                        linked.union(a[i][j], a[i + 1][j]);
-                        ((Value)(a[i+1][j].theObject)).color = ((Value)a[i][j].theObject).color;
-                    }
-                }
-                else if( i == a.length-1 && j+1 < a[0].length){
-                    if(a[i][j+1] != null && !(a[i][j].representative.equals(a[i][j+1].representative))){
-                        linked.union(a[i][j], a[i][j + 1]);
-                        ((Value)(a[i][j+1].theObject)).color = ((Value)a[i][j].theObject).color;
-                    }
-                }
-                else if (j+1 < a[0].length && i+1 < a.length){
-                    if(a[i+1][j] != null && !(a[i][j].representative.equals(a[i+1][j].representative))){
-                        linked.union(a[i][j], a[i + 1][j]);
-                        ((Value)(a[i+1][j].theObject)).color = ((Value)a[i][j].theObject).color;
-                    }
-                    if(a[i][j+1] != null && !(a[i][j].representative.equals(a[i][j+1].representative))){
-                        linked.union(a[i][j], a[i][j + 1]);
-                        ((Value)(a[i][j+1].theObject)).color = ((Value)a[i][j].theObject).color;
-                    }
-                }
-            }
-        }
-
-        for (int i = 0; i < a.length; i++) {
-            for (int j = 0; j < a[i].length; j++) {
-                if (a[i][j] != null) matrix[i][j] = ((Value)a[i][j].representative.head.theObject).color;
+        for (int i = 0; i < nodes.length; i++) {
+            for (int j = 0; j < nodes[i].length; j++) {
+                if (nodes[i][j] != null) matrix[i][j] = ((Pixel)nodes[i][j].getRepresentative().getHead().getTheObject()).getColor();
                 else{
-                    int[] ba = {0,0,0};
-                    matrix[i][j] = ba;
+                    int[] blackColor = {0,0,0};
+                    matrix[i][j] = blackColor;
                 }
             }
         }
+
+
+    }
+
+    public void coloring (String fileRead, String filePrint) {
+        Reader reader = new Reader(fileRead);
+        int[][][] matrix = reader.read();
+
+        Node[][] nodes = new Node[matrix.length][matrix[0].length];
+        SetLinked linked = new SetLinked();
+
+        makeAllSet(nodes, matrix, linked);
+        makeAllUnion(nodes, linked);
+        switchNodeToMatrix(nodes, matrix);
 
         Writer writer = new Writer(matrix);
-        writer.writeMatrix("con.ppm");
+        writer.writeMatrix(filePrint);
     }
 
 
     public static void main (String[] args) {
         Coloring coloring = new Coloring();
-        coloring.coloring();
+        coloring.coloring(args[0], args[1]);
     }
    
 

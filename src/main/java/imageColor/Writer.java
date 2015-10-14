@@ -31,11 +31,11 @@ public class Writer {
             bufferedWriter.write("255");
             bufferedWriter.newLine();
 
-            for (int i = 0; i < matrix.length; ++i){
+            for (int i = 0; i < matrix.length; ++i) {
 
                 int count = 0;
 
-                for (int j = 0; j < matrix[0].length; ++j){
+                for (int j = 0; j < matrix[0].length; ++j) {
 
                     if (matrix[i][j][0] > 255 || matrix[i][j][0] < 0) throw new IOException("Bad format");
 
@@ -43,7 +43,7 @@ public class Writer {
 
                     bufferedWriter.write(matrix[i][j][0]+ " " + matrix[i][j][1]+ " " + matrix[i][j][2]+ " ");
 
-                    if(count % 70 == 0){
+                    if(count % 70 == 0) {
                         bufferedWriter.newLine();
                     }
                 }
