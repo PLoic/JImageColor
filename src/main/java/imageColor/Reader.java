@@ -17,10 +17,10 @@ public class Reader {
         this.filename = filename;
     }
 
-    public Integer[][][] read() {
+    public int[][][] read() {
         String line;
 
-        Integer[][][] matrix = null;
+        int[][][] matrix = null;
 
         try {
 
@@ -40,7 +40,7 @@ public class Reader {
             widthMatrix = new Integer(stringTokenizer.nextToken());
             heightMatrix = new Integer(stringTokenizer.nextToken());
 
-            matrix = new Integer[heightMatrix][widthMatrix][3];
+            matrix = new int[heightMatrix][widthMatrix][3];
 
 
             int widthTMP = 0;
@@ -83,9 +83,9 @@ public class Reader {
 
     public static void main (String[] args) {
         Reader reader = new Reader("carte_france.pbm");
-        Integer[][][] matrix = reader.read();
-        for (final Integer[][] i : matrix) {
-            for (final Integer[] j : i) {
+        int[][][] matrix = reader.read();
+        for (final int[][] i : matrix) {
+            for (final int[] j : i) {
                 for(Integer k : j)
                     System.out.print(k);
             }

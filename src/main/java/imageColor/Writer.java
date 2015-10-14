@@ -9,9 +9,9 @@ import java.io.IOException;
  */
 public class Writer {
 
-    private Integer[][][] matrix;
+    private int[][][] matrix;
 
-    public Writer(Integer[][][] matrix) {
+    public Writer(int[][][] matrix) {
         this.matrix = matrix;
     }
 
@@ -39,7 +39,7 @@ public class Writer {
 
                     if (matrix[i][j][0] > 255 || matrix[i][j][0] < 0) throw new IOException("Bad format");
 
-                    count = count + matrix[i][j][0].toString().length() + matrix[i][j][1].toString().length() + matrix[i][j][2].toString().length() + 3;
+                    count = count + String.valueOf(matrix[i][j][0]).length() + String.valueOf(matrix[i][j][1]).toString().length() + String.valueOf(matrix[i][j][2]).toString().length() + 3;
 
                     bufferedWriter.write(matrix[i][j][0]+ " " + matrix[i][j][1]+ " " + matrix[i][j][2]+ " ");
 

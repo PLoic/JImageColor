@@ -1,25 +1,21 @@
 package imageColor;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
-import java.awt.Color;
+import java.util.Set;
 
 class Coloring {
 
-    public void union (Set<Node> bigSet, Set<Node> littleSet) {
-        Integer[] color;
-        color = bigSet.getHead().getColor();
+    public void coloring () {
+        Reader reader = new Reader("biang.pbm");
+        int[][][] matrix = reader.read();
 
-        for(Node n = littleSet.getHead(); n != null ; n = n.getNext()) {
-            n.setReferant(bigSet.getHead());
-            n.setColor(color);
-        }
-        bigSet.getTail().setNext(littleSet.getHead());
-        littleSet.setHead(bigSet.getHead());
-        bigSet.setTail(littleSet.getTail());
-    }
+        Node[][] a = new Node[matrix.length][matrix[0].length];
 
-    private void createMatrixSet (Set<Node>[][] matrixSet, Integer[][][] matrix) {
+
+        SetLinked linked = new SetLinked();
+
         Random randomGenerator = new Random();
         for(int i = 0; i < matrix.length; ++i) {
             for (int j = 0; j < matrix[0].length; ++j) {
@@ -30,65 +26,46 @@ class Coloring {
                     matrix[i][j][0] = r;
                     matrix[i][j][1] = g;
                     matrix[i][j][2] = b;
-                    Set<Node> set = new Set<>();
-                    Integer[] tmp1 = {r,g,b};
-                    matrixSet[i][j] = set.makeSet(new Node (i, j, tmp1));
+                    int[] tmp1 = {r,g,b};
+                    a[i][j] = linked.makeSet(new Value(i, j, tmp1));
                 } else {
-                    Set<Node> set = new Set<>();
-                    Integer[] tmp1 = {0,0,0};
-                    matrixSet[i][j] = set.makeSet(new Node (i, j, tmp1));
+                    int[] tmp1 = {0,0,0};
+                    a[i][j] = linked.makeSet(new Value(i, j, tmp1));
                 }
             }
         }
-    }
 
-    public void coloring () {
-        Reader reader = new Reader("carte_france.pbm");
-        Integer[][][] matrix = reader.read();
+        for (int i = 0; i < a.length; i++) {
+            for (int j = 0; j < a[i].length ; j++) {
 
-        Set<Node>[][] sets = new Set[matrix.length][matrix[0].length];
+                if (((Value)a[i][j].theObject).color[0] == 0 && ((Value)a[i][j].theObject).color[1] == 0 && ((Value)a[i][j].theObject).color[2] == 0) continue;
 
-        createMatrixSet(sets, matrix);
-
-        for(int i = 0; i < sets.length; ++i) {
-            for (int j = 0; j < sets[0].length; ++j) {
-                Set<Node> a;
-
-                if(i == sets.length - 1 && j == sets[0].length - 1) continue;
-
-                if(sets[i][j].getHead().getColor()[0] == 0 && sets[i][j].getHead().getColor()[1] == 0 && sets[i][j].getHead().getColor()[2] == 0) continue;
-
-                if(j == sets[0].length - 1){
-                    if((sets[i][j]).getHead() != sets[i+1][j].getHead() && sets[i+1][j].getHead().getColor()[0] != 0 && sets[i+1][j].getHead().getColor()[1] != 0 && sets[i+1][j].getHead().getColor()[2] != 0 )
-                        union(sets[i][j], sets[i + 1][j]);
+                if (j+1 < a[0].length && i+1 < a.length){
+                    if(!(a[i][j].representative.head.equals(a[i+1][j].representative.head)) && ((Value)a[i+1][j].theObject).color[0] != 0 && ((Value)a[i+1][j].theObject).color[1] != 0 && ((Value)a[i+1][j].theObject).color[2] != 0){
+                        linked.union(a[i][j], a[i + 1][j]);
+                    }
+                    if(!(a[i][j].representative.head.equals(a[i][j+1].representative.head)) && ((Value)a[i][j+1].theObject).color[0] != 0 && ((Value)a[i][j+1].theObject).color[1] != 0 && ((Value)a[i][j+1].theObject).color[2] != 0){
+                        linked.union(a[i][j], a[i][j + 1]);
+                    }
                 }
-                if(i == sets.length - 1){
-                    if ((sets[i][j]).getHead() != sets[i][j+1].getHead() && sets[i][j+1].getHead().getColor()[0] != 0 && sets[i][j+1].getHead().getColor()[1] != 0 && sets[i][j+1].getHead().getColor()[2] != 0)
-                        union(sets[i][j],sets[i][j+1]);
+                else if(j == a[0].length-1 && i+1 < a.length){
+                    if(!(a[i][j].representative.head.equals(a[i+1][j].representative.head)) && ((Value)a[i+1][j].theObject).color[0] != 0 && ((Value)a[i+1][j].theObject).color[1] != 0 && ((Value)a[i+1][j].theObject).color[2] != 0){
+                        linked.union(a[i][j], a[i + 1][j]);
+                    }
                 }
-
-                if (j+1 < sets[0].length && i+1 < sets.length){
-                    if ((sets[i][j]).getHead() != sets[i][j+1].getHead() && sets[i][j+1].getHead().getColor()[0] != 0 && sets[i][j+1].getHead().getColor()[1] != 0 && sets[i][j+1].getHead().getColor()[2] != 0)
-                        union(sets[i][j],sets[i][j+1]);
-                    if((sets[i][j]).getHead() != sets[i+1][j].getHead() && sets[i+1][j].getHead().getColor()[0] != 0 && sets[i+1][j].getHead().getColor()[1] != 0 && sets[i+1][j].getHead().getColor()[2] != 0 )
-                        union(sets[i][j],sets[i+1][j]);
+                else if(i == a.length-1 && j+1 < a[0].length){
+                    if(!(a[i][j].representative.head.equals(a[i][j+1].representative.head)) && ((Value)a[i][j+1].theObject).color[0] != 0 && ((Value)a[i][j+1].theObject).color[1] != 0 && ((Value)a[i][j+1].theObject).color[2] != 0){
+                        linked.union(a[i][j], a[i][j + 1]);
+                    }
                 }
-
-            }
-        }
-        
-        Node tmp = sets[0][0].getHead();
-        for (int i = 0; i < sets.length; ++i){
-            for (int j = 0; j < sets[0].length; ++j) {
-                if (sets[i][j].getHead() != tmp.getReferant()) {
-                   tmp = sets[i][j].getHead(); 
-                }
-                matrix[i][j][0] = tmp.getColor()[0];
-                matrix[i][j][1] = tmp.getColor()[1];
-                matrix[i][j][2] = tmp.getColor()[2];
             }
         }
 
+        for (int i = 0; i < a.length; i++) {
+            for (int j = 0; j < a[i].length; j++) {
+                matrix[i][j] = ((Value)a[i][j].representative.head.theObject).color;
+            }
+        }
 
         Writer writer = new Writer(matrix);
         writer.writeMatrix("con.ppm");
