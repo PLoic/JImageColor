@@ -59,7 +59,10 @@ public class Generator {
     }
 
     public static void main (String[] args) {
-        Generator generate = new Generator("test.pbm");
+        Generator generate = new Generator(args[0]);
         generate.generate(100, 100);
+        Coloring coloring = new Coloring();
+        coloring.coloring(args[0], args[1]);
+        
     }
 }

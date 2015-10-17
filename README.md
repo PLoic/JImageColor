@@ -1,5 +1,7 @@
 # JImageColor
 Pour compiler :
-./make.sh nom de la classe, pour le coloriage Coloring
+./make.sh nomFichierALire nomFichierAEcrire
+Pour generer le fichier aléatoirement
+./make.sh Generator nomFIchierACreer nomFichierAEcrire
 Requis maven
 sudo apt-get install maven
