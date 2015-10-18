@@ -17,7 +17,7 @@ public class Generator {
         this.filename = filename;
     }
 
-    public void generate(Integer widthPixel, Integer heightPixel){
+    public void generate(Integer heightPixel, Integer widthPixel){
 
         try {
 
@@ -60,7 +60,7 @@ public class Generator {
 
     public static void main (String[] args) {
         Generator generate = new Generator(args[0]);
-        generate.generate(100, 100);
+        generate.generate(Integer.valueOf(args[2]), Integer.valueOf(args[3]));
         Coloring coloring = new Coloring();
         coloring.coloring(args[0], args[1]);
         
