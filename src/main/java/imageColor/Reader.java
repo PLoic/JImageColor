@@ -6,17 +6,46 @@ import java.io.IOException;
 import java.util.StringTokenizer;
 
 /**
- * Created by loic on 08/10/15.
+ * La classe est Reader est dédié a lire le fichier donné à la construction et le stocker dans une matrice de couleur
+ *
+ * @author Mickael Loic
+ * @version 1.0 
  */
 public class Reader {
 
+    /**
+     * Le nom du fichier à lire
+     *
+     * @see Reader#Reader(String)
+     * @see Reader#read()
+     */
     private String filename;
 
-
+    /**
+     * Le constructeur du Reader
+     * <p> 
+     *     S'occupe d'initialiser le nom du fichier
+     * </p>
+     *
+     * @param filename
+     *              Le nom du fichier a lire
+     *
+     * @see Reader#filename
+     */
     public Reader(String filename) {
         this.filename = filename;
     }
-
+    
+    /**
+     * Lis le fichier instancié et créé une matrice de int contenant les valeurs lues.
+     *
+     *
+     * @return Renvoie la matrice créé avec un tableau contenant 255, 255, 255 si la valeur lue est blanche et 0, 0, 0 si la valeur 
+     *         est noir 
+     *
+     * @see Reader#filename
+     *
+     */
     public int[][][] read() {
         String line;
 

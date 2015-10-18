@@ -5,8 +5,24 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
+/**
+ * Classe dédié à la coloration et l'execution final de l'algorithme
+ *
+ * @author Loic Mickael
+ * @version 1.0
+ */
 class Coloring {
 
+    /**
+     * Création de la totalité des sets dans la matrice de nodes, initialise la matrice de nodes à partir de la matrice de int
+     *
+     * @param nodes
+     *          La matrice de noeud reliant déstiné à être unifié
+     * @param matrix
+     *          La matrice de int lus à la lecture
+     * @param linked
+     *          L'ensemble de lien, utilisé pour créé des ensemble dans la matrice de noeud
+     */
     private void makeAllSet(Node[][] nodes, int[][][] matrix, SetLinked linked) {
         Random randomGenerator = new Random();
         for(int i = 0; i < matrix.length; ++i) {
@@ -25,6 +41,14 @@ class Coloring {
         }
     }
 
+    /**
+     * Réalise la totalité des unions dans la matrice
+     *
+     * @param nodes
+     *          La matrice de noeuds
+     * @param linked
+     *          L'instance de liste s'occupant de l'union de la totalité des nodes
+     */
     private void makeAllUnion(Node[][] nodes, SetLinked linked) {
 
         for (int i = 0; i < nodes.length; i++) {
@@ -57,6 +81,14 @@ class Coloring {
 
     }
 
+    /**
+     * Réalise la transformation de la matrice de noeux en matrice de int en préparation pour l'écriture
+     *
+     * @param nodes
+     *          Matrice contenant la totalité des noeuds fusionné
+     * @param matrix
+     *          Matrice de int attendant la modification des couleurs
+     */
     private void switchNodeToMatrix(Node[][] nodes, int[][][] matrix) {
 
         for (int i = 0; i < nodes.length; i++) {
@@ -72,6 +104,14 @@ class Coloring {
 
     }
 
+    /**
+     * Algorithme final colorisant l'image
+     *
+     * @param fileRead
+     *              Le fichier en lecture
+     * @param filePrint
+     *              Le nom du fichier en écriture
+     */
     public void coloring (String fileRead, String filePrint) {
         Reader reader = new Reader(fileRead);
         int[][][] matrix = reader.read();

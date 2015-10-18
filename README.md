@@ -11,3 +11,6 @@ Coloriage de base :
 ./make.sh celtique.pbm celtique.ppm
 Generation
 ./make.sh Generator generate.pbm generate.ppm 1024 1024
+
+Pour la javadoc
+Ouvrir le fichier du dossier index.html

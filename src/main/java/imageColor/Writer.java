@@ -5,16 +5,42 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 /**
- * Created by loic on 09/10/15.
+ * Writer est une classe dédié à l'écriture de la matrice dans un nouveau fichier PPM
+ * 
+ * @author Loic Mickael
+ * @version 1.0
  */
 public class Writer {
 
+    /**
+     * Matrice contenant les nouvelles couleurs
+     *
+     * @see Writer#Writer(int[][][])
+     * @see Writer#writeMatrix(String)
+     */
     private int[][][] matrix;
 
+    /**
+     * Le constructeur de writer instancie l'object avec la matrice lue et modifié par le Lecteur et le set
+     *
+     * @param matrix
+     *      La matrice venant d'être lue
+     *
+     * @see Writer#matrix
+     */
     public Writer(int[][][] matrix) {
         this.matrix = matrix;
     }
 
+    /**
+     * Ecris la matrice dans le fichier désiré
+     *
+     * @param filename
+     *          Le fichier dans lequel écrire
+     *
+     * @see Writer#matrix
+     *
+     */
     public void writeMatrix(String filename){
 
         try {
