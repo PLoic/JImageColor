@@ -35,6 +35,24 @@ public class Reader {
     public Reader(String filename) {
         this.filename = filename;
     }
+
+    private boolean lineIsComment(String line) {
+        String tmp = line.replaceAll(" ", "");
+        return (tmp.charAt(0) == '#');
+    }
+    
+    private String passLineComment(BufferedReader myBufferedReader) {
+        try {
+            String line = myBufferedReader.readLine();
+            while (lineIsComment(line)) {
+                line = myBufferedReader.readLine();
+            }
+            return line;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
     
     /**
      * Lis le fichier instancié et créé une matrice de int contenant les valeurs lues.
@@ -47,7 +65,7 @@ public class Reader {
      *
      */
     public int[][][] read() {
-        String line;
+        String line = new String();
 
         int[][][] matrix = null;
 
@@ -55,27 +73,31 @@ public class Reader {
 
             FileReader myFileReader = new FileReader(this.filename);
             BufferedReader myBufferedReader = new BufferedReader(myFileReader);
-
-            line = myBufferedReader.readLine();
-
-            if(!line.equals("P1")) throw new IOException("Error Format");
-
+            // Gérer les commentaires
+            line = passLineComment(myBufferedReader);
+            
+            if(!(line.charAt(0) == 'P' && line.charAt(1) == '1')) throw new IOException("Error Format");
+            //if(!line.equals("P1")) throw new IOException("Error Format");
+            
+            line = passLineComment(myBufferedReader);
+    
             Integer widthMatrix;
             Integer heightMatrix;
-
-            line = myBufferedReader.readLine();
+            
             StringTokenizer stringTokenizer = new StringTokenizer(line," ");
 
             widthMatrix = new Integer(stringTokenizer.nextToken());
             heightMatrix = new Integer(stringTokenizer.nextToken());
 
             matrix = new int[heightMatrix][widthMatrix][3];
-
+            
 
             int widthTMP = 0;
             int heightTMP = 0;
-
-            while ((line = myBufferedReader.readLine()) != null) {
+            
+            line = passLineComment(myBufferedReader);
+            
+            do {
                 for(char c : line.toCharArray()) {
                     if (c == '#') break;
                     else if (c == '1' || c == '0') {
@@ -96,13 +118,13 @@ public class Reader {
                         }
                     }
                 }
-            }
+            } while ((line = myBufferedReader.readLine()) != null);
 
             myBufferedReader.close();
             myFileReader.close();
 
 
-        } catch (java.io.IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
