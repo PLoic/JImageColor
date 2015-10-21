@@ -35,12 +35,32 @@ public class Reader {
     public Reader(String filename) {
         this.filename = filename;
     }
-
+    
+    /**
+     * Méthode privé pas dans la javadoc mais commenté pour relecture du développeur
+     * Vérifie si une ligne est un commentaire 
+     * 
+     * @param line 
+     *           Vérification de la ligne 
+     * @return Renvoie vrai si la ligne est un commentaire faux sinon
+     *
+     * @see Reader#read()
+     */
     private boolean lineIsComment(String line) {
         String tmp = line.replaceAll(" ", "");
         return (tmp.charAt(0) == '#');
     }
     
+    /**
+     * Méthode privé pas dans la javadoc mais commenté pour relecture du développeur
+     * Passe tous les lignes commenté
+     * 
+     * @param myBufferedReader 
+     *          Le flux de lecture qui va lire de nouvelles ligne si la ligne actuel est un commentaire 
+     * @return Renvoie la dernière ligne non commenté lue par le flux de lecture
+     *
+     * @see Reader#read()
+     */
     private String passLineComment(BufferedReader myBufferedReader) {
         try {
             String line = myBufferedReader.readLine();
