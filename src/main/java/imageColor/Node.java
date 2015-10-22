@@ -101,6 +101,9 @@ public class Node {
     public void setRepresentative(SetLinked.SetL representative) {
         this.representative = representative;
     }
-
+    
+    public String toString() {
+        return this.thePixel.toString();
+    }
 
 }

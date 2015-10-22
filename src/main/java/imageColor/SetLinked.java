@@ -140,7 +140,7 @@ public class SetLinked {
     }
 
     /**
-     * Réalise l'union entre deux sets, a partir de deux nodes
+     * Réalise l'union entre deux sets, a partir de deux nodes en utilisant l'union avec la queue
      *
      * @param x
      *         Le premier noeud
@@ -156,6 +156,53 @@ public class SetLinked {
             append(xSet, ySet);
         else
             append(ySet, xSet);
+    }
+    
+    /**
+     * Réalise l'union entre deux sets, a partir de deux nodes sans utiliser la queue
+     *
+     * @param x
+     *         Le premier noeud
+     * @param y 
+     *         Le second noeud
+     */
+    public void union2(Node x, Node y) {
+        SetL xSet = findSet(x);
+        SetL ySet = findSet(y);
+
+        if (xSet.getSize() >= ySet.getSize())
+            append2(xSet, ySet);
+        else
+            append2(ySet, xSet);
+
+    }
+ 
+    /**
+     * Réalise l'algorithme  de la fusion entre deux sets sans utiliser la queue
+     *
+     * @param first
+     *         Le premier noeud
+     * @param second 
+     *         Le second noeud
+     */   
+    private void append2(SetL first, SetL second) {
+        Node x = second.getHead();
+        
+        while (x != null) {
+            x.setRepresentative(first);
+            if (x.getNext() == null) {
+                x.setNext(first.getHead().getNext());
+                break;
+            } else {
+                x = x.getNext();
+            }
+        }
+        first.getHead().setNext(second.getHead());
+        first.setSize(first.getSize() + second.getSize());
+        
+        second.setHead(null);
+        second.setSize(0);
+
     }
 
     /**
