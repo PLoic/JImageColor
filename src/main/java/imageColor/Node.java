@@ -14,7 +14,7 @@ public class Node {
      * @see Node#Node(Object) 
      * @see Node#getTheObject()
      */
-    private Object theObject;
+    private Pixel thePixel;
     
     /**
      * next est un pointeur sur le noeud suivant, permet de ce déplacer dans la liste
@@ -39,24 +39,24 @@ public class Node {
      * @param x
      *       L'object qui va être instancier dans notre cas un pixel
      * 
-     * @see Node#theObject
+     * @see Node#thePixel
      * @see Node#next
      * @see Node#representative
      */
-    public Node(Object x) {
-        theObject = x;
+    public Node(Pixel x) {
+        thePixel = x;
         next = null;
         representative = null;
     }
     
     /**
-     * Renvoie l'objet du noeud
+     * Renvoie le pixel du noeud
      *
-     * @return L'objet du noeud
-     * @see Node#theObject
+     * @return Le pixel du noeud
+     * @see Node#thePixel
      */
-    public Object getTheObject() {
-        return theObject;
+    public Pixel getThePixel() {
+        return thePixel;
     }
 
     /**
@@ -102,13 +102,5 @@ public class Node {
         this.representative = representative;
     }
 
-    /**
-     * Affiche le Noeud utile pour débugger
-     *
-     * @see Node#theObject
-     */
-    public String toString() {
-        return theObject.toString();
-    }
 
 }

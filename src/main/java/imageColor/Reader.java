@@ -33,6 +33,18 @@ public class Reader {
      * @see Reader#filename
      */
     public Reader(String filename) {
+        StringTokenizer stringTokenizer = new StringTokenizer(filename,".");
+        stringTokenizer.nextToken();
+
+        if(!stringTokenizer.nextToken().equals("pbm")) try {
+
+            throw new IOException("Erreur nom de fichier");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+
         this.filename = filename;
     }
     
@@ -136,6 +148,8 @@ public class Reader {
                             widthTMP = 0;
                             ++heightTMP;
                         }
+                    } else if (c != ' ') {
+                        throw new IOException("Bad Value During Read");
                     }
                 }
             } while ((line = myBufferedReader.readLine()) != null);
@@ -146,6 +160,7 @@ public class Reader {
 
         } catch (IOException e) {
             e.printStackTrace();
+            System.exit(1);
         }
 
         return matrix;

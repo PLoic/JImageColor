@@ -132,7 +132,7 @@ public class SetLinked {
      *        Répresente un objet à ajouter à un set
      * @return Le noeud crée a partir de l'objet
      */
-    public Node makeSet(Object x) {
+    public Node makeSet(Pixel x) {
         Node node = new Node(x);
         SetL disjointSet = new SetL(node);
         node.setRepresentative(disjointSet);

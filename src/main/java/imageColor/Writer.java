@@ -3,6 +3,7 @@ package imageColor;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.StringTokenizer;
 
 /**
  * Writer est une classe dédié à l'écriture de la matrice dans un nouveau fichier PPM
@@ -45,6 +46,11 @@ public class Writer {
 
         try {
 
+            StringTokenizer stringTokenizer = new StringTokenizer(filename,".");
+            stringTokenizer.nextToken();
+
+            if (!stringTokenizer.nextToken().equals("ppm")) throw new IOException("Bad Writer filename");
+
             FileWriter fileWriter = new FileWriter(filename);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 
@@ -57,24 +63,32 @@ public class Writer {
             bufferedWriter.write("255");
             bufferedWriter.newLine();
 
+            int count = 0;
             for (int i = 0; i < matrix.length; ++i) {
-
-                int count = 0;
 
                 for (int j = 0; j < matrix[0].length; ++j) {
 
-                    if (matrix[i][j][0] > 255 || matrix[i][j][0] < 0) throw new IOException("Bad format");
+                    if (matrix[i][j][0] > 255 || matrix[i][j][0] < 0 &&
+                        matrix[i][j][1] > 255 || matrix[i][j][1] < 0 &&
+                        matrix[i][j][2] > 255 || matrix[i][j][2] < 0    ){
+                        throw new IOException("Bad format");
+                    }
 
-                    count = count + String.valueOf(matrix[i][j][0]).length() + String.valueOf(matrix[i][j][1]).toString().length() + String.valueOf(matrix[i][j][2]).toString().length() + 3;
+                    int currentSize = String.valueOf(matrix[i][j][0]).length() + String.valueOf(matrix[i][j][1]).toString().length() + String.valueOf(matrix[i][j][2]).toString().length() + 3;
 
-                    bufferedWriter.write(matrix[i][j][0]+ " " + matrix[i][j][1]+ " " + matrix[i][j][2]+ " ");
+                    if (count + currentSize > 70) {
 
-                    if(count % 70 == 0) {
+                        count = currentSize;
                         bufferedWriter.newLine();
+                        bufferedWriter.write(matrix[i][j][0] + " " + matrix[i][j][1] + " " + matrix[i][j][2] + " ");
+
+                    } else {
+
+                        count += currentSize;
+                        bufferedWriter.write(matrix[i][j][0] + " " + matrix[i][j][1] + " " + matrix[i][j][2] + " ");
+
                     }
                 }
-
-                bufferedWriter.newLine();
             }
 
             bufferedWriter.close();

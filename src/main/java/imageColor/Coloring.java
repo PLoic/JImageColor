@@ -1,9 +1,6 @@
 package imageColor;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Random;
-import java.util.Set;
 
 /**
  * Classe dédié à la coloration et l'execution final de l'algorithme
@@ -59,21 +56,21 @@ class Coloring {
                  if (j == nodes[0].length-1 && i+1 < nodes.length) {
                     if (nodes[i+1][j] != null && !(nodes[i][j].getRepresentative().equals(nodes[i+1][j].getRepresentative()))) {
                         linked.union(nodes[i][j], nodes[i + 1][j]);
-                        ((Pixel)(nodes[i+1][j].getTheObject())).setColor(((Pixel)nodes[i][j].getTheObject()).getColor());
+                        ((nodes[i+1][j].getThePixel())).setColor((nodes[i][j].getThePixel()).getColor());
                     }
                 } else if(i == nodes.length - 1 && j + 1 < nodes[0].length) {
                     if (nodes[i][j+1] != null && !(nodes[i][j].getRepresentative().equals(nodes[i][j+1].getRepresentative()))) {
                         linked.union(nodes[i][j], nodes[i][j + 1]);
-                        ((Pixel)(nodes[i][j+1].getTheObject())).setColor(((Pixel)nodes[i][j].getTheObject()).getColor());
+                        nodes[i][j+1].getThePixel().setColor(nodes[i][j].getThePixel().getColor());
                     }
                 } else if (j + 1 < nodes[0].length && i + 1 < nodes.length) {
                     if (nodes[i+1][j] != null && !(nodes[i][j].getRepresentative().equals(nodes[i+1][j].getRepresentative()))) {
                         linked.union(nodes[i][j], nodes[i + 1][j]);
-                        ((Pixel)(nodes[i+1][j].getTheObject())).setColor(((Pixel)nodes[i][j].getTheObject()).getColor());
+                        nodes[i+1][j].getThePixel().setColor(nodes[i][j].getThePixel().getColor());
                     }
                     if (nodes[i][j+1] != null && !(nodes[i][j].getRepresentative().equals(nodes[i][j+1].getRepresentative()))) {
                         linked.union(nodes[i][j], nodes[i][j + 1]);
-                        ((Pixel)(nodes[i][j+1].getTheObject())).setColor(((Pixel)nodes[i][j].getTheObject()).getColor());
+                        nodes[i][j+1].getThePixel().setColor(nodes[i][j].getThePixel().getColor());
                     }
                 }
             }
@@ -93,7 +90,7 @@ class Coloring {
 
         for (int i = 0; i < nodes.length; i++) {
             for (int j = 0; j < nodes[i].length; j++) {
-                if (nodes[i][j] != null) matrix[i][j] = ((Pixel)nodes[i][j].getRepresentative().getHead().getTheObject()).getColor();
+                if (nodes[i][j] != null) matrix[i][j] = ((Pixel)nodes[i][j].getRepresentative().getHead().getThePixel()).getColor();
                 else{
                     int[] blackColor = {0,0,0};
                     matrix[i][j] = blackColor;
