@@ -126,11 +126,11 @@ public class SetLinked {
     }
 
     /**
-     * Crée un set par rapport à un objet dans notre cas un pixel
+     * Crée un set par rapport à un pixel
      *
      * @param x
-     *        Répresente un objet à ajouter à un set
-     * @return Le noeud crée a partir de l'objet
+     *        Répresente un pixel à ajouter à un set
+     * @return Le noeud crée a partir du pixel'
      */
     public Node makeSet(Pixel x) {
         Node node = new Node(x);

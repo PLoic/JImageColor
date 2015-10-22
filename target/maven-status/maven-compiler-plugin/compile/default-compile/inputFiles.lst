@@ -1,7 +1,7 @@
-/home/micka/JImageColor/src/main/java/imageColor/Writer.java
-/home/micka/JImageColor/src/main/java/imageColor/Reader.java
-/home/micka/JImageColor/src/main/java/imageColor/Generator.java
-/home/micka/JImageColor/src/main/java/imageColor/Coloring.java
-/home/micka/JImageColor/src/main/java/imageColor/Pixel.java
-/home/micka/JImageColor/src/main/java/imageColor/Node.java
-/home/micka/JImageColor/src/main/java/imageColor/SetLinked.java
+/home/micka/JImageColorOk/src/main/java/imageColor/Pixel.java
+/home/micka/JImageColorOk/src/main/java/imageColor/Writer.java
+/home/micka/JImageColorOk/src/main/java/imageColor/Generator.java
+/home/micka/JImageColorOk/src/main/java/imageColor/SetLinked.java
+/home/micka/JImageColorOk/src/main/java/imageColor/Node.java
+/home/micka/JImageColorOk/src/main/java/imageColor/Reader.java
+/home/micka/JImageColorOk/src/main/java/imageColor/Coloring.java

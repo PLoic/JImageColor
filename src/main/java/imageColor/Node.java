@@ -9,17 +9,17 @@ package imageColor;
 public class Node {
 
     /**
-     * theObject représente l'object du noeud dans notre cas le pixel
+     * thePixel représente le pixel du noeud dans notre cas le pixel
      *
-     * @see Node#Node(Object) 
-     * @see Node#getTheObject()
+     * @see Node#Node(Pixel) 
+     * @see Node#getThePixel()
      */
     private Pixel thePixel;
     
     /**
      * next est un pointeur sur le noeud suivant, permet de ce déplacer dans la liste
      *
-     * @see Node#Node(Object)
+     * @see Node#Node(Pixel)
      * @see Node#getNext()
      * @see Node#setNext(Node)
      */
@@ -37,7 +37,7 @@ public class Node {
      * Constructeur du noeud
      *
      * @param x
-     *       L'object qui va être instancier dans notre cas un pixel
+     *       Le pixel qui va être instancier
      * 
      * @see Node#thePixel
      * @see Node#next
